@@ -26,7 +26,8 @@ Sharpe ratio -
 2.	Graph the daily returns over the 10yr period using hvplot.line
 3.	Calculate metrics for each stock (Standard deviation, Beta, annualized volatility(variance))
 4.	Graph Standard deviatio, Beta and variance.
-5.	Efficient frontier analysis
+5.	Efficient frontier analysis - https://pyportfolioopt.readthedocs.io/en/latest/UserGuide.html
+6.		
 
 		
 
