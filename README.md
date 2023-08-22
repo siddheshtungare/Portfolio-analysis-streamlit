@@ -7,6 +7,9 @@
 ![Alt text](https://pyportfolioopt.readthedocs.io/en/latest/_images/efficient_frontier.png)
 
 ---
+## Questions
+
+What can we do to get the highest return for the investment portfolio without the highest risk?
 
 ## Technologies
 
