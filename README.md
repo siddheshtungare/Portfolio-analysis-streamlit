@@ -2,7 +2,7 @@
 
 ## Portfolio Optimization Return
 
-### Goal – To analyse the ideal weighted portfolio of 5 stocks. In order to get the maximise return n\ and minimise risk of the weighted portfolio, the data is combined into Jupyter Notebook and      n\ finalised by possibly using the efficient frontier analysis (https://pypi.org/project/pyportfolioopt/)
+### Goal – To analyse the ideal weighted portfolio of 5 stocks. In order to get the maximise return  and minimise risk of the weighted portfolio, the data is combined into Jupyter Notebook and finalised by possibly using the efficient frontier analysis (https://pypi.org/project/pyportfolioopt/)
 
 ![Alt text](https://pyportfolioopt.readthedocs.io/en/latest/_images/efficient_frontier.png)
 
