@@ -33,7 +33,8 @@ Using of input function to let anyone can create their own portfolio analyzation
 
 The needed installation: yfinance installation and pip install PyPortfolioOpt
 
-![Alt text](https://github.com/MatthewTsiglopoulos/Project-1/blob/main/Image%2022-8-2023%20at%205.49%20pm.jpg?raw=true)
+![Alt text](https://github.com/MatthewTsiglopoulos/Project-1/blob/main/Images/Image%2022-8-2023%20at%205.49%20pm.jpg?raw=true)
+
 ---
 
 ## Data Engineering
@@ -57,26 +58,26 @@ Using the data from yfinance for calculations:
 _Current US 10yr Risk Free Rate – 4.286%
 Calculate :Total Return – and plot the returns of portfolio
 
-![Alt text](https://github.com/MatthewTsiglopoulos/Project-1/blob/main/returnplot2.png?raw=true)
-![Alt text](https://github.com/MatthewTsiglopoulos/Project-1/blob/main/cumplot2.png?raw=true)
+![Alt text](https://github.com/MatthewTsiglopoulos/Project-1/blob/main/Images/returnplot2.png?raw=true)
+![Alt text](https://github.com/MatthewTsiglopoulos/Project-1/blob/main/Images/cumplot2.png?raw=true)
 
 - Calcuate rolling 180 day mean of cumulative stock price returns
 - Calculate rolling 180 standard deviation of cumulative stock prices
 
 - Calculate variance
-(https://github.com/MatthewTsiglopoulos/Project-1/blob/main/Images/variance.png?raw=true)
+![Alt text](https://github.com/MatthewTsiglopoulos/Project-1/blob/main/Images/variance.png?raw=true)
 
 - Standard Deviation 
-(https://github.com/MatthewTsiglopoulos/Project-1/blob/main/Images/std.png?raw=true)
+![Alt text](https://github.com/MatthewTsiglopoulos/Project-1/blob/main/Images/std.png?raw=true)
 
 - Covariance matrix
 - Beta 
 - Correlation Coefficient
 - Sharpe ratio and plot a bar chart
-(https://github.com/MatthewTsiglopoulos/Project-1/blob/main/Images/sharpratio.png?raw=true)
+![Alt text](https://github.com/MatthewTsiglopoulos/Project-1/blob/main/Images/sharpratio.png?raw=true)
 - Risk matrix
-(https://github.com/MatthewTsiglopoulos/Project-1/blob/main/Images/Unknown.png?raw=true)
-(https://github.com/MatthewTsiglopoulos/Project-1/blob/main/Images/Unknown-2.png?raw=true)
+![Alt text](https://github.com/MatthewTsiglopoulos/Project-1/blob/main/Images/Unknown.png?raw=true)
+![Alt text](https://github.com/MatthewTsiglopoulos/Project-1/blob/main/Images/Unknown-2.png?raw=true)
 
 	Volatility 
 Create: the minimum volatility for the portfolio by EfficientFrontier(mu, s) function, we get the expected annual return, annual volatility and sharp ratio
