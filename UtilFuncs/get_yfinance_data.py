@@ -2,7 +2,7 @@ import yfinance as yf
 import pandas as pd
 from datetime import datetime, timedelta
 
-def get_securities_prices(tickers, num_years=10): 
+def get_securities_prices(tickers, num_years=10, download_tnx=True): 
 
     # Calculate the start and end dates for the past 5 years
     end_date = datetime.today().date()
@@ -18,12 +18,15 @@ def get_securities_prices(tickers, num_years=10):
 
     stock_data.columns = stock_data.columns.droplevel(0) if len(tickers) > 1 else tickers
 
+    if download_tnx: 
     # ================================US Treasury Bonds data=============================================
     # Fetch Risk Free rate using US10 Treasury Bond
     # Fetch historical price data
-    us10_data = yf.download("^TNX", start=start_date, end=end_date)
+        us10_data = yf.download("^TNX", start=start_date, end=end_date)
 
-    #Drop Nulls. Remove high, low, open data. 
-    us10_data = us10_data.drop(columns=['Open', 'Volume', 'Close', 'High', 'Low'])
+        #Drop Nulls. Remove high, low, open data. 
+        us10_data = us10_data.drop(columns=['Open', 'Volume', 'Close', 'High', 'Low'])
 
-    return stock_data,  us10_data
+        return stock_data,  us10_data
+    
+    return stock_data
