@@ -89,7 +89,7 @@ def run_ef_with_random(stock_data):
     returns = stock_data.pct_change()
     mean_returns = returns.mean()
     cov_matrix = returns.cov()
-    num_portfolios = 5000
+    num_portfolios = 10000
     risk_free_rate = 0.02
 
     #To display the frontier and data:

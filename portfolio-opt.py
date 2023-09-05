@@ -19,7 +19,9 @@ import chart_studio.plotly as py
 
 from UtilFuncs.get_yfinance_data import * 
 from UtilFuncs.visualizations_1 import *
+from UtilFuncs.calculations import * 
 
+# Read the json file containing the tickers corresponding to the index
 with open('Resources/symbols_list.json', 'r') as json_file:
     symbols_dict = json.load(json_file)
 
@@ -31,17 +33,15 @@ st.set_page_config(
 
 st.title("Portfolio Optimization")
 
-# First section of st - this is for the user to select the tickers, and the index they want to run it for
-
+# First section of app - this is for the user to select the tickers, and the index they want to run it for
 index_symbol = [st.selectbox("Select index", ['^AXJO'])]  # 'NDX',  @ToDo: More work needed for the Nasdaq listed securities
 
 st.write("Please select the tickers you want to include in your portfolio")
 tickers_with_name = st.multiselect("Select tickers", symbols_dict[index_symbol[0]], placeholder="Choose an option", max_selections=10)
 tickers = [ticker.split(":")[0] for ticker in tickers_with_name]
 
-st.write(f"You selected the following tickers: {tickers}")  
-
 st.write(f"You selected the following index: {index_symbol[0]}")    
+st.write(f"You selected the following tickers: {tickers}")  
 
 stock_data, us10_data = get_securities_prices(tickers + index_symbol, num_years = 5)
 
@@ -65,24 +65,44 @@ if len(tickers) > 0 and len(index_symbol) > 0:
         returns_variance = combined_returns.var()
         cov_matrix = combined_returns.cov()
 
-        # Code to calculate Beta
-        #Find variance of the Index ticker
-        variance_of_index = combined_returns[index_symbol[0]].var()
-        # Create an empty DataFrame to store beta values
-        beta_df = pd.DataFrame(columns=['Ticker', 'Beta'])
-        # Iterate through the tickers, use the covariance against index and calculate beta
-        for i, ticker in enumerate(tickers):
-            cov = cov_matrix[ticker][index_symbol].item()
-            beta = cov / variance_of_index
-            beta_df = beta_df.append({'Ticker': ticker, 'Beta': beta}, ignore_index=True)
-        beta_df.set_index('Ticker',inplace=True)
-        beta_df.sort_index(inplace=True)
+        computed_results = calculate_metrics(stock_data)
+        combined_returns = computed_results['combined_returns']
+        cum_returns = computed_results['cum_returns']
+        cum_returns_sma = computed_results['cum_returns_sma']
+        cum_returns_std = computed_results['cum_returns_std']
+        volatility = computed_results['volatility']
+        returns_variance = computed_results['returns_variance']
+        cov_matrix = computed_results['cov_matrix']
+        df_metrics = computed_results['df_metrics']
 
         # Sharpe Ratios
-        sharpe_ratios = (combined_returns.mean() * 252) / volatility
+        # sharpe_ratios = (combined_returns.mean() * 252) / volatility
 
+        tab0, tab1, tab2, tab3, tab4, tab5 = st.tabs(["DataFrames", "Returns", "Standard Dev. and Volatility", \
+                                                      "Risk Analysis", "Efficient Frontier", "Recommendations"])
 
-        tab1, tab2, tab3, tab4 = st.tabs(["Returns", "Standard Dev. and Volatility", "Risk Analysis", "Efficient Frontier"])
+        # This is only for dev analysis. We can print out the dataframes in this tab 
+        with tab0: 
+            # Row1: 
+            st.header("Only for development analysis. Need to comment out this tab later")
+
+            st.markdown("**Printing out all Dataframes used in this app**")
+            st.write("combined_returns")
+            st.dataframe(combined_returns)
+            st.write("cum_returns")
+            st.dataframe(cum_returns)
+            st.write("cum_returns_sma")
+            st.dataframe(cum_returns_sma)
+            st.write("cum_returns_std")
+            st.dataframe(cum_returns_std)
+            st.write("volatility")
+            st.dataframe(volatility)
+            st.write("returns_variance")
+            st.dataframe(returns_variance)
+            st.write("cov_matrix")
+            st.dataframe(cov_matrix)
+            st.write("dataframe_concatenated")
+            st.dataframe(df_metrics)
 
         with tab1: 
             # Row1: Line charts on prices and returns 
@@ -132,11 +152,11 @@ if len(tickers) > 0 and len(index_symbol) > 0:
             col_3_3, col_3_4 = st.columns(2)
 
             with col_3_3:
-                fig7 = px.bar(beta_df, x=beta_df.index, y='Beta', title=f"Beta score with ref to {index_symbol[0]}")
+                fig7 = px.bar(df_metrics['Beta'], x=df_metrics.index, y='Beta', title=f"Beta score with ref to {index_symbol[0]}")
                 st.plotly_chart(fig7)
 
             with col_3_4:
-                fig8 = px.bar(sharpe_ratios, title="Sharpe Ratios")   #, x='Ticker', y='Beta'
+                fig8 = px.bar(df_metrics['Sharpe_Ratio'], title="Sharpe Ratios")   
                 st.plotly_chart(fig8)
 
 
@@ -154,5 +174,22 @@ if len(tickers) > 0 and len(index_symbol) > 0:
 
             with col_4_2:
                 st.markdown(ef_outcomes[0])
+
+        # Tab5: Recommendations
+        with tab5: 
+            st.header("Efficient Frontier - on Recommended Tickers")
+
+            df_prices_top_20 = pd.read_csv("Resources/Recommendations_top_20_prices.csv", index_col=0, parse_dates=True, infer_datetime_format=True)
+
+            ef_outcomes_top_20 = run_ef_with_random(df_prices_top_20.iloc[1400:].copy())
+
+            # Row1: to show EF plot and outcomes 
+            col_5_1, col_5_2 = st.columns([0.6, 0.4])
+
+            with col_5_1:
+                st.plotly_chart(ef_outcomes_top_20[1])
+
+            with col_5_2:
+                st.markdown(ef_outcomes_top_20[0])
 
 
