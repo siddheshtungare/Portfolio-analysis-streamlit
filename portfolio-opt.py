@@ -181,7 +181,8 @@ if len(tickers) > 0 and len(index_symbol) > 0:
 
             df_prices_top_20 = pd.read_csv("Resources/Recommendations_top_20_prices.csv", index_col=0, parse_dates=True, infer_datetime_format=True)
 
-            ef_outcomes_top_20 = run_ef_with_random(df_prices_top_20.iloc[1400:].copy())
+            # Taking last 5 years data 
+            ef_outcomes_top_20 = run_ef_with_random(df_prices_top_20.iloc[1265:].copy())
 
             # Row1: to show EF plot and outcomes 
             col_5_1, col_5_2 = st.columns([0.6, 0.4])
