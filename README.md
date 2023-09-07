@@ -4,22 +4,24 @@
 
 Forked from original repo - [github.com/MatthewTsiglopoulos/Project-1](https://github.com/MatthewTsiglopoulos/Project-1)
 
-## Installation and steps to run the app
+## Installation
 
-### Streamlit Installation (for Windows)
+Make an environment with conda, clone the repo, and install from requirements file:
+```
+conda create -n port python=3.11
+conda activate port
+git clone https://github.com/siddheshtungare/Portfolio-analysis-streamlit.git
+cd Portfolio-analysis-streamlit
+pip install -r requirements.txt
+```
 
-- Activate your Anaconda environment
+Otherwise installation of these packages should suffice:
+```
+pip install tabulate yfinance matplotlib hvplot PyPortfolioOpt chart_studio streamlit
+```
 
-`conda activate <your_anaconda_env>`
+## Run the project
 
-- Install streamlit
-
-`pip install streamlit`
-
-- Verify Streamlit is installed
-
-`streamlit hello`
-
-### Run the project
-
-`streamlit run portfolio-opt.py`
+```
+streamlit run portfolio-opt.py
+```
