@@ -78,8 +78,8 @@ if len(tickers) > 0 and len(index_symbol) > 0:
         # Sharpe Ratios
         # sharpe_ratios = (combined_returns.mean() * 252) / volatility
 
-        tab0, tab1, tab2, tab3, tab4, tab5 = st.tabs(["DataFrames", "Returns", "Standard Dev. and Volatility", \
-                                                      "Risk Analysis", "Efficient Frontier", "Recommendations"])
+        tab0, tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["DataFrames", "Returns", "Standard Dev. and Volatility", \
+                                                      "Risk Analysis", "Efficient Frontier", "Recommendations", "Fundamentals"])
 
         # This is only for dev analysis. We can print out the dataframes in this tab 
         with tab0: 
@@ -192,5 +192,23 @@ if len(tickers) > 0 and len(index_symbol) > 0:
 
             with col_5_2:
                 st.markdown(ef_outcomes_top_20[0])
+
+        # Tab6: Fundamental Analysis
+        with tab6: 
+            st.header("Fundamental Analysis of your stocks")
+
+            df_fundamentals = pd.read_csv(f"Resources/Fundamentals_data_{index_symbol[0]}.csv", index_col=0)
+
+            # Row1: to show histograms 
+            col_6_1, col_6_2 = st.columns(2)
+
+            with col_6_1:
+                fig1 = px.histogram(df_fundamentals, y="marketCap", hover_data=df_fundamentals.columns)
+                st.plotly_chart(fig1)
+                # st.dataframe(df_fundamentals)
+
+            with col_6_2:
+                st.markdown("### Coming Soon")
+
 
 
