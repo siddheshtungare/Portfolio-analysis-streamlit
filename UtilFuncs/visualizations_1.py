@@ -94,3 +94,21 @@ def run_ef_with_random(stock_data):
 
     #To display the frontier and data:
     return display_simulated_ef_with_random(stock_data, mean_returns, cov_matrix, num_portfolios, risk_free_rate)
+
+def fundamentals_radar_chart(index, tickers): 
+
+    df_fundamentals = pd.read_csv(f"./Resources/Fundamentals_data_{index}.csv", index_col=0)
+
+    for key in df_fundamentals.columns.to_list():
+        df_fundamentals[f'{key}_percentile'] = df_fundamentals[key].rank(pct=True)
+
+    figs = []
+
+    for ticker in tickers: 
+
+        df_ticker = df_fundamentals.loc[df_fundamentals.index == ticker, \
+                                [col for col in df_fundamentals.columns.to_list() if "percentile" in col] ].T               # Only plot the percentile columns need 
+
+        figs.append (px.line_polar(df_ticker, r=ticker, theta=df_ticker.index, line_close=True) )
+
+    return figs

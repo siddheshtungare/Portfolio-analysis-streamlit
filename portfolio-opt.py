@@ -53,7 +53,7 @@ us10_daily_change = us10_data.pct_change().dropna()
 if len(tickers) > 0 and len(index_symbol) > 0: 
 
     run_visuals = st.button("Show Visualizations on ticker prices")
-    # st.dataframe(stock_data.iloc[:10], use_container_width=True)
+
 
     if run_visuals: 
 
@@ -159,7 +159,6 @@ if len(tickers) > 0 and len(index_symbol) > 0:
                 fig8 = px.bar(df_metrics['Sharpe_Ratio'], title="Sharpe Ratios")   
                 st.plotly_chart(fig8)
 
-
         # Tab4: Efficient Frontier
         with tab4: 
             st.header("Efficient Frontier")
@@ -195,20 +194,28 @@ if len(tickers) > 0 and len(index_symbol) > 0:
 
         # Tab6: Fundamental Analysis
         with tab6: 
-            st.header("Fundamental Analysis of your stocks")
+            st.header("Fundamental Analysis of your assets")
 
-            df_fundamentals = pd.read_csv(f"Resources/Fundamentals_data_{index_symbol[0]}.csv", index_col=0)
+            with st.container():
 
-            # Row1: to show histograms 
-            col_6_1, col_6_2 = st.columns(2)
-
-            with col_6_1:
-                fig1 = px.histogram(df_fundamentals, y="marketCap", hover_data=df_fundamentals.columns)
-                st.plotly_chart(fig1)
+                # df_fundamentals = pd.read_csv(f"Resources/Fundamentals_data_{index_symbol[0]}.csv", index_col=0)
+                figs = fundamentals_radar_chart(index_symbol[0], tickers)
                 # st.dataframe(df_fundamentals)
 
-            with col_6_2:
-                st.markdown("### Coming Soon")
+                for i in range(len(tickers)):
+
+                    with st.expander(f"Fundamental Analysis for {tickers[i]}", expanded=False):
+
+                        # Row: to show radar charts 
+                        col_6_1, col_6_2 = st.columns(2)
+
+                        with col_6_1:
+                            # st.dataframe(df)
+                            st.plotly_chart(figs[i])
+                            # st.markdown("### Coming Soon")
+
+                        with col_6_2:
+                            st.markdown("### Coming Soon")
 
 
 
